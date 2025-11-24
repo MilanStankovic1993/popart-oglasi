@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CustomerController;
+use App\Http\Controllers\Admin\CategoryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +29,8 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         Route::resource('customers', CustomerController::class)
             ->parameters(['customers' => 'customer']);
+
+        Route::resource('categories', CategoryController::class);
     });
 
 require __DIR__.'/auth.php';
