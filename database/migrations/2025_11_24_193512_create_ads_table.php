@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->enum('condition', ['novo', 'polovno']);
-            $table->string('image')->nullable(); // putanja slike (storage)
+            $table->string('image')->nullable();
             $table->string('phone');
             $table->string('location');
 
