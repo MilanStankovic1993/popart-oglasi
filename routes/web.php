@@ -6,21 +6,33 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CustomerController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdController as AdminAdController;
+use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Customer\AdController as CustomerAdController;
+use App\Models\Ad;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/**
+ * CUSTOMER DASHBOARD
+ */
+Route::get('/dashboard', [CustomerDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
+/**
+ * Breeze profil rute
+ */
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+/**
+ * ADMIN ROUTES
+ */
 Route::middleware(['auth', 'verified', 'admin'])
     ->prefix('admin')
     ->name('admin.')
@@ -35,5 +47,15 @@ Route::middleware(['auth', 'verified', 'admin'])
 
         Route::resource('ads', AdminAdController::class);
     });
+
+/**
+ * CUSTOMER ROUTES
+ */
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('my-ads', CustomerAdController::class)
+        ->names('customer.ads')
+        ->parameters(['my-ads' => 'my_ad'])
+        ->except(['show']);
+});
 
 require __DIR__.'/auth.php';
