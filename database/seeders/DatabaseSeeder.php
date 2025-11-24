@@ -15,6 +15,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Admin korisnik
         $this->call(AdminUserSeeder::class);
+
+        // Customers
+        $this->call(CustomerSeeder::class);
+
+        // Kategorije
+        $this->call(CategorySeeder::class);
+
+        // Oglasi
+        $this->call(AdSeeder::class);
     }
 }

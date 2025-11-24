@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\AdminDashboardController; 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,9 @@ Route::middleware(['auth', 'verified', 'admin'])
     ->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])
             ->name('dashboard');
+
+        Route::resource('customers', CustomerController::class)
+            ->parameters(['customers' => 'customer']);
     });
 
 require __DIR__.'/auth.php';
