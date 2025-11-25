@@ -24,7 +24,7 @@ Route::get('/oglas/{ad}', [FrontAdController::class, 'show'])
  * CUSTOMER DASHBOARD
  */
 Route::get('/dashboard', [CustomerDashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified', 'prevent-back-history'])
     ->name('dashboard');
 
 /**
@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
 /**
  * ADMIN ROUTES
  */
-Route::middleware(['auth', 'verified', 'admin'])
+Route::middleware(['auth', 'verified', 'admin', 'prevent-back-history'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
@@ -57,7 +57,7 @@ Route::middleware(['auth', 'verified', 'admin'])
 /**
  * CUSTOMER ROUTES
  */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function () {
     Route::resource('my-ads', CustomerAdController::class)
         ->names('customer.ads')
         ->parameters(['my-ads' => 'my_ad'])
