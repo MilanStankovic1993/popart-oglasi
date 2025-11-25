@@ -9,11 +9,17 @@ use App\Http\Controllers\Admin\AdController as AdminAdController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\AdController as CustomerAdController;
 use App\Models\Ad;
+use App\Http\Controllers\Front\AdController as FrontAdController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// FRONT OGLASI (gost, customer, svi)
+Route::get('/', [FrontAdController::class, 'index'])
+    ->name('front.ads.index');
 
+Route::get('/kategorija/{category}', [FrontAdController::class, 'category'])
+    ->name('front.ads.category');
+
+Route::get('/oglas/{ad}', [FrontAdController::class, 'show'])
+    ->name('front.ads.show');
 /**
  * CUSTOMER DASHBOARD
  */
